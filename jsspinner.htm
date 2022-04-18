@@ -1,0 +1,173 @@
+<head>
+    <style>
+        .particle {
+            background-color: blue;
+            width: 5px;
+            height: 5px;
+            position: absolute;
+            top:0;left:0
+        }
+    </style>
+    <script>
+
+        let time = 0
+        let len = 50
+        let rot = 0
+
+        let runner=false
+
+        function spin() {
+            document.querySelector("#spinner").style.backgroundColor = "red"
+            // document.querySelector("#spinner").style.transform=`rotate(${rot}deg)`
+            if(!runner)
+                runner=window.setInterval(doRot, 33)
+
+
+            // emitParticles()
+            doRot()
+
+        }
+        function doRot() {
+            rot += 5
+            document.querySelector("#spinner").style.transform = `rotate(${rot}deg)`
+            particles = document.querySelectorAll(".particle")
+
+            particles.forEach(function (p) {
+
+                let offs = p.getAttribute('data-offs')
+                let vert = p.getAttribute('data-vert')
+
+                if(offs>500) {
+                    p.remove()
+                }
+
+                p.setAttribute(
+                    'style',
+                    `transform: translate(${offs}px, ${vert}px);`
+                );
+
+                let newOffs = offs * 1 + 5
+                p.setAttribute(
+                    'data-offs',
+                    newOffs
+                );
+
+            });
+
+            //#adjustable
+            // if(time%3==0) {
+            if(time%1==0) {
+                emitParticles()
+                console.log(time)
+            }
+
+            if(time==3320)
+                    clearInterval(runner)
+            time++
+
+
+        }
+        function emitParticles() {
+            let container = document.querySelector("#container")
+            let spinnerDiv=document.querySelector("#spinner")
+
+            // var c = document.getElementById("myCanvas");
+            // var ctx = c.getContext("2d");
+            // ctx.beginPath();
+            // ctx.arc(95, 50, 40, 0, 2 * Math.PI);
+            // ctx.stroke();
+
+            const newDiv = document.createElement("div");
+            newDiv.setAttribute(
+                'class',
+                'particle',
+            );
+
+            let offs=Math.cos(rot*Math.PI/180)*len
+            offs= 50 //#tweakable #adjustable
+
+            newDiv.setAttribute(
+                    'data-offs',
+                    offs
+                );
+
+            let vert=Math.sin(rot*Math.PI/180) * len 
+            newDiv.setAttribute(
+                'data-vert',
+                vert
+            );
+
+
+            newDiv.setAttribute(
+                    'style',
+                    `transform: translate(${offs}px, ${vert}px);`
+                );
+
+
+            // and give it some content
+            // const newContent = document.createTextNode("Hi there and greetings!");
+
+            // add the text node to the newly created div
+            // newDiv.appendChild(newContent);
+
+            // add the newly created element and its content into the DOM
+            container.insertBefore(newDiv, spinnerDiv);
+
+
+
+
+
+
+            let newDiv2 = document.createElement("div");
+            newDiv2.setAttribute(
+                'class',
+                'particle',
+            );
+
+            offs=Math.cos((rot*1+180)*Math.PI/180)*len
+            offs= 50 //#tweakable #adjustable
+            newDiv2.setAttribute(
+                    'data-offs',
+                    offs
+                );
+
+            vert=Math.sin((rot*1+180)*Math.PI/180) * len 
+            newDiv2.setAttribute(
+                'data-vert',
+                vert
+            );
+
+
+            newDiv2.setAttribute(
+                    'style',
+                    `transform: translate(${offs}px, ${vert}px);`
+                );
+
+
+            // and give it some content
+            // const newContent = document.createTextNode("Hi there and greetings!");
+
+            // add the text node to the newly created div
+            // newDiv2.appendChild(newContent);
+
+            // add the newly created element and its content into the DOM
+            container.insertBefore(newDiv2, spinnerDiv);
+
+
+
+
+        }
+
+    </script>
+</head>
+<!-- margin-top: 100px;margin-left:100px; -->
+<body>
+    <div id="container" style="height:200px;position:absolute;top:100px;left:100px;width:100%">
+        <div id="spinner" style="width:100px;height:10px;background:black;position: absolute;left:-50px"></div>
+        <!-- <div id="spinner" style="width:50px;height:10px;background:black; transform-origin: top left;position: absolute;"></div> -->
+        <!-- <canvas id="myCanvas" width="200" height="100" style="border:1px solid #000000;">
+</canvas> -->
+    </div>
+    <button onClick="spin()">Spin</button>
+
+</body>

@@ -1,0 +1,26 @@
+<head>
+<script> 
+    num=0
+
+function spin() {
+    document.querySelector("#spinner").style.backgroundColor="red"
+    // document.querySelector("#spinner").style.transform=`rotate(${num}deg)`
+    window.setInterval(doRot,33)
+
+}
+function doRot() {
+    num+=5
+    document.querySelector("#spinner").style.transform=`rotate(${num}deg)`
+
+}
+
+</script>
+</head>
+
+<body>
+<div style="height:200px;padding-top: 100px;">
+<div id="spinner" style="width:100px;height:10px;background:black;"></div>
+</div>
+<button onClick="spin()">Spin</button>
+
+</body>
